@@ -1,0 +1,32 @@
+```python
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import numpy as np
+
+# Sample data: square footage, number of bedrooms, number of bathrooms, and corresponding prices
+square_footage = np.array([1000, 1500, 1200, 1700, 1300]).reshape(-1, 1)
+bedrooms = np.array([2, 3, 2, 3, 2]).reshape(-1, 1)
+bathrooms = np.array([1, 2, 1, 2, 1]).reshape(-1, 1)
+prices = np.array([200000, 300000, 240000, 320000, 250000])
+
+# Combine features into one array
+features = np.concatenate((square_footage, bedrooms, bathrooms), axis=1)
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(features, prices, test_size=0.2, random_state=42)
+
+# Create and train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Evaluate the model
+train_score = model.score(X_train, y_train)
+test_score = model.score(X_test, y_test)
+
+print("Train R^2 score:", train_score)
+print("Test R^2 score:", test_score)
+
+# Predict prices
+sample_house = np.array([[1400, 2, 1]])  # Square footage, bedrooms, bathrooms
+predicted_price = model.predict(sample_house)
+print("Predicted price for the sample house:", predicted_price[0])
